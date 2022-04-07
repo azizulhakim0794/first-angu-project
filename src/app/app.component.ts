@@ -1,0 +1,15 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'first-angu-project';
+  public isCollapsed = false;
+}
+
+export class NgbdCollapseBasic {
+  public isCollapsed = false;
+}
