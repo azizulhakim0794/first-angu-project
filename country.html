@@ -1,0 +1,866 @@
+<div class="modal-dialog custom_dialog login-modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header login_popup_header shadow-2dp no-pb">
+            <button type="button" class="close task_post_cancel" data-dismiss="modal" aria-label="Close" ng-click="closeLoginModal()" ng-if="tab_selected!='SignUpWithBasicInfo'">
+                <span aria-hidden="true">
+                    <i class="zmdi zmdi-close color-black"></i>
+                </span>
+            </button>
+            <div class="modal-title text-center pt-2 pb-1">
+                <h3 class="no-m ms-site-title pb-1 fs-20" ng-if="tab_selected=='Login'">
+                    {{ 'login' | translate }}
+                </h3>
+                <h3 class="no-m ms-site-title pb-1 fs-20" ng-if="tab_selected=='SignUp'">
+                    {{ 'Create_Account' | translate }}
+                </h3>
+                <h3 class="no-m ms-site-title color-white" ng-if="tab_selected!='Login' && tab_selected!='SignUp' && tab_selected!='SignUpWithBasicInfo'">
+                    <img src="assets/img/Logo_big.png" width="150" alt="Shohokari.Com">
+                </h3>
+                <h3 class="no-m ms-site-title pb-1 fs-20" ng-if="tab_selected=='SignUpWithBasicInfo'">
+                    {{ 'CreateProfile' | translate }}
+                </h3>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade" ng-class="{'active in': tab_selected==='Login'}" id="ms-login-tab">
+                    <form autocomplete="off">
+                        <fieldset>
+                            <div style="margin:0 10px; font-size: 14px;"><span ng-bind-html="_Notifications('login') "></span></div>
+                            <div class="form-group no-m no-p">
+                                <label class="control-label custom_control_label mt-1" for="login_user">{{ 'Email' | translate }}</label>
+                                <input type="text" id="login_user" class="form-control custom_input" ng-model="dataModel.Email">
+
+                                <!--<div class="text-center">
+                                    <p class="resend_code_text">I have no password? <a href="javascript:void(0)" ng-click="ReSendOTPCode()"><u><b>SEND Password</b></u></a></p>
+                                </div>-->
+                            </div>
+                            <div class="form-group no-m no-p">
+                                <label class="control-label custom_control_label mt-1" for="login_pass">{{ 'Password' | translate }}</label>
+                                <input type="password" id="login_pass" class="form-control custom_input" ng-model="dataModel.Password">
+                                <div class="forgot-password-link"><a href="javascript:void(0)" ng-click="forgetPasswordPopupModal()">{{ 'Forgot_Password' | translate }}?</a></div>
+                            </div>
+                            <div class="form-group no-p no-m text-right">
+                                <button type="button" class="btn btn-raised btn-instagram no-m" style="background-color: #dd6c68;" ng-click="login()">{{ 'login' | translate }}</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <div class="separator_login_or_wrapper">{{ 'or_login_with' | translate }}</div>
+                    <div class="social_btn_container no-mb">
+
+                        <a href="javascript:void(0)" class="btn btn-raised btn-block btn-default radius-2 profile_compt_back_btn" data-target="#ms-register-tab3" aria-controls="ms-register-tab3" role="tab" data-toggle="tab" ng-click="GoLoginWithMobileButtonClick()">
+                            <i class="zmdi zmdi-phone"></i> {{ 'Mobile_Login' | translate }}
+                        </a>
+                        <br />
+
+                        <div class="social_btn_content hide">
+                            <!--<button class="wave-effect-light btn btn-raised btn-facebook no-m facebook_btn" ng-click="authenticatefacebook('facebook')">
+                                <div class="facebook_auth_button_wrapper">
+                                    <svg width="25" height="25" viewBox="0 0 24 24">
+                                        <path d="M12 2a10 10 0 0 0-1.56 19.88v-7H7.9V12h2.54V9.8a3.52 3.52 0 0 1 3.77-3.89 15.72 15.72 0 0 1 2.24.19v2.46h-1.26a1.45 1.45 0 0 0-1.63 1.56V12h2.78l-.45 2.89h-2.33v7A10 10 0 0 0 12 2z"></path>
+                                    </svg>
+                                    <span>{{ 'Facebook' | translate }}</span>
+                                </div>
+                            </button>-->
+                            <div class="social_btn_gap"></div>
+                            <div class="g-signin2 google_login_btn" data-onsuccess="onSignIn"></div>
+                            <!--<button class="wave-effect-light btn btn-raised btn-white no-m google_btn">
+                                <div class="google_auth_button_wrapper">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <path d="M22 12.23c0-.707-.063-1.393-.183-2.045h-9.613v3.871h5.491c-.235 1.253-.957 2.31-2.035 3.017v2.511h3.296C20.888 17.837 22 15.275 22 12.23z" fill="#3E82F1"></path>
+                                        <path d="M12.204 22c2.757 0 5.067-.893 6.752-2.421l-3.296-2.512c-.911.602-2.08.956-3.456.956-2.66 0-4.907-1.759-5.71-4.124h-3.41v2.595C4.763 19.76 8.213 22 12.203 22z" fill="#32A753"></path>
+                                        <path d="M6.494 13.899A5.848 5.848 0 0 1 6.174 12c0-.657.114-1.298.32-1.899v-2.59h-3.41A9.863 9.863 0 0 0 2 12c0 1.612.396 3.14 1.083 4.489l3.411-2.59z" fill="#F9BB00"></path>
+                                        <path d="M12.204 5.978c1.496 0 2.843.505 3.898 1.494l2.929-2.87C17.265 2.988 14.955 2 12.204 2c-3.99 0-7.44 2.242-9.12 5.511l3.41 2.59c.803-2.365 3.05-4.123 5.71-4.123z" fill="#E74133"></path>
+                                    </svg>
+                                    <span>{{ 'Google' | translate }}</span>
+                                </div>
+                            </button>-->
+                            
+
+                        </div>
+                        
+
+                    </div>
+                    <!--<div class="login_modal_footer">
+                        <span>{{ 'Dont_have_an_account' | translate }}</span>
+                        <a ng-click="GoSignupPage()" href="javascript:void(0)" data-target="#ms-register-tab" aria-controls="ms-register-tab" role="tab" data-toggle="tab">{{ 'Sign_Up' | translate }}</a>
+                    </div>-->
+                </div>
+
+                <div role="tabpanel" class="tab-pane fade" ng-class="{'active in': tab_selected==='SignUp'}" id="ms-register-tab">
+                    <form autocomplete="off">
+                        <fieldset>
+                            <div class="form-group no-m no-p">
+                                <label class="control-label custom_control_label mt-1" for="rg_email">{{ 'Email' | translate }}</label>
+                                <input type="email" id="rg_email" class="form-control custom_input" ng-model="dataModel.Email" required>
+                            </div>
+                            <div class="form-group no-m no-p">
+                                <label class="control-label custom_control_label mt-1" for="rg_pass">{{ 'Password' | translate }}</label>
+                                <input type="password" id="rg_pass" class="form-control custom_input" pattern=".{4,}" ng-model="dataModel.Password" required title="4 characters minimum">
+                            </div>
+                            <div class="form-group no-p mt-2">
+                                <button type="submit" class="btn btn-raised btn-primary btn-block radius-2" ng-click="dataModel.Email.length>0 && dataModel.Password.length>3 && showNextTab()">{{ 'Join_Shohokari' | translate }}</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <div class="separator_login_or_wrapper">{{ 'or_sign_up_with' | translate }}</div>
+                    <div class="social_btn_container">
+                        <div class="social_btn_content">
+                            <!--<button class="wave-effect-light btn btn-raised btn-facebook no-m facebook_btn" ng-click="authenticatefacebook('facebook')">
+                                <div class="facebook_auth_button_wrapper">
+                                    <svg width="25" height="25" viewBox="0 0 24 24">
+                                        <path d="M12 2a10 10 0 0 0-1.56 19.88v-7H7.9V12h2.54V9.8a3.52 3.52 0 0 1 3.77-3.89 15.72 15.72 0 0 1 2.24.19v2.46h-1.26a1.45 1.45 0 0 0-1.63 1.56V12h2.78l-.45 2.89h-2.33v7A10 10 0 0 0 12 2z"></path>
+                                    </svg>
+                                    <span>{{ 'Facebook' | translate }}</span>
+                                </div>
+                            </button>-->
+                            <div class="social_btn_gap"></div>
+                            <!--<div class="g-signin2 google_login_btn" data-onsuccess="onSignIn"></div>-->
+                            <!--<button class="wave-effect-light btn btn-raised btn-white no-m google_btn" onclick="onSignIn()" >
+                                <div class="google_auth_button_wrapper">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <path d="M22 12.23c0-.707-.063-1.393-.183-2.045h-9.613v3.871h5.491c-.235 1.253-.957 2.31-2.035 3.017v2.511h3.296C20.888 17.837 22 15.275 22 12.23z" fill="#3E82F1"></path>
+                                        <path d="M12.204 22c2.757 0 5.067-.893 6.752-2.421l-3.296-2.512c-.911.602-2.08.956-3.456.956-2.66 0-4.907-1.759-5.71-4.124h-3.41v2.595C4.763 19.76 8.213 22 12.203 22z" fill="#32A753"></path>
+                                        <path d="M6.494 13.899A5.848 5.848 0 0 1 6.174 12c0-.657.114-1.298.32-1.899v-2.59h-3.41A9.863 9.863 0 0 0 2 12c0 1.612.396 3.14 1.083 4.489l3.411-2.59z" fill="#F9BB00"></path>
+                                        <path d="M12.204 5.978c1.496 0 2.843.505 3.898 1.494l2.929-2.87C17.265 2.988 14.955 2 12.204 2c-3.99 0-7.44 2.242-9.12 5.511l3.41 2.59c.803-2.365 3.05-4.123 5.71-4.123z" fill="#E74133"></path>
+                                    </svg>
+                                    <span>{{ 'Google' | translate }}</span>
+                                </div>
+                            </button>-->
+                            
+
+                        </div>
+                        
+
+                    </div>
+                    <p class="signing_agreement_text" translate="signing_agreement_text"></p>
+                    <div class="login_modal_footer">
+                        <span>{{ 'Already_have_an_account' | translate }}</span>
+                        <a ng-click="GoLoginPage()" href="javascript:void(0)" data-target="#ms-login-tab" aria-controls="ms-login-tab" role="tab" data-toggle="tab">{{ 'login' | translate }}</a>
+                    </div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane fade" ng-class="{'active in': tab_selected==='SignUpWithBasicInfo'}" style="margin-top: -10px;" id="ms-register-tab2">
+                    <form>
+                        <fieldset>
+                            <div style="margin:0 10px; font-size: 14px;"><span ng-bind-html="_Notifications('register')"></span></div>
+                            <div class="form-group no-m no-p">
+                                <label class="control-label custom_control_label" for="reg_FirstName" style="margin-top: 0px !important;margin-bottom: 0 !important;">{{ 'Name' | translate }}</label>
+                                <br />
+                                <!--<input type="text" id="reg_FirstName" class="form-control custom_input" placeholder="{{ 'First_Name' | translate }}" ng-model="dataModel.FirstName" required style="max-width: 161px;display: inline-block;margin-right: 5px;">
+                                <input type="text" id="reg_LastName" class="form-control custom_input" placeholder="{{ 'Last_Name' | translate }}" ng-model="dataModel.LastName" style="max-width: 160px;display: inline-block;">-->
+                                
+                                <div class="input-group custom_login_input_group" style="max-width: 161px;display: inline-block;margin-right: 5px;">
+                                    <input type="text" id="reg_FirstName" class="form-control custom_input" placeholder="{{ 'First_Name' | translate }}" ng-model="dataModel.FirstName" required>
+                                    <span class="input-group-addon"><i class="fa fa-user-o"></i></span>
+                                </div>
+                                <div class="input-group custom_login_input_group" style="max-width: 160px;display: inline-block;">
+                                    <input type="text" id="reg_LastName" class="form-control custom_input" placeholder="{{ 'Last_Name' | translate }}" ng-model="dataModel.LastName">
+                                    <span class="input-group-addon"><i class="fa fa-user-o"></i></span>
+                                </div>
+                            </div>
+
+                            <!--<div class="form-group no-m no-p">
+                                <label class="control-label custom_control_label" for="reg_LastName">{{ 'Last_Name' | translate }}</label>
+                                <input type="text" id="reg_LastName" class="form-control custom_input" ng-model="dataModel.LastName">
+                            </div>-->
+                            <div class="form-group no-m no-p">
+                                <label class="control-label custom_control_label" for="reg_Email" style="margin-bottom: 0 !important;">{{ 'Email' | translate }}</label>
+                                <div class="input-group custom_login_input_group">
+                                    <input type="email" id="reg_Email" class="form-control custom_input" ng-model="dataModel.Email">
+                                    <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group no-m no-p">
+                                <label class="control-label custom_control_label" for="reg_Email">{{ 'Birthday' | translate }}</label>
+                                <div class="small custom_sub_label">{{ 'Birthday_desc' | translate }}</div>
+                                <div class="rg_birthday_content">
+
+                                    <select class="form-control custom_input" ng-model="dataModel.BirthDay" name="dob-day" id="dob-day" style="margin-right: 2px;" required>
+                                        <option value="">{{ 'Day' | translate }}</option>
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                        <option value="03">03</option>
+                                        <option value="04">04</option>
+                                        <option value="05">05</option>
+                                        <option value="06">06</option>
+                                        <option value="07">07</option>
+                                        <option value="08">08</option>
+                                        <option value="09">09</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                        <option value="13">13</option>
+                                        <option value="14">14</option>
+                                        <option value="15">15</option>
+                                        <option value="16">16</option>
+                                        <option value="17">17</option>
+                                        <option value="18">18</option>
+                                        <option value="19">19</option>
+                                        <option value="20">20</option>
+                                        <option value="21">21</option>
+                                        <option value="22">22</option>
+                                        <option value="23">23</option>
+                                        <option value="24">24</option>
+                                        <option value="25">25</option>
+                                        <option value="26">26</option>
+                                        <option value="27">27</option>
+                                        <option value="28">28</option>
+                                        <option value="29">29</option>
+                                        <option value="30">30</option>
+                                        <option value="31">31</option>
+                                    </select>
+
+                                    <select class="form-control custom_input" ng-model="dataModel.BirthMonth" name="dob-month" id="dob-month" style="margin-right: 2px;width: 36%;" required>
+
+
+                                        <option value="">{{ 'Month' | translate }}</option>
+                                        <option value="Jan">January</option>
+                                        <option value="Feb">February</option>
+                                        <option value="Mar">March</option>
+                                        <option value="Apr">April</option>
+                                        <option value="May">May</option>
+                                        <option value="Jun">June</option>
+                                        <option value="Jul">July</option>
+                                        <option value="Aug">August</option>
+                                        <option value="Sep">September</option>
+                                        <option value="Oct">October</option>
+                                        <option value="Nov">November</option>
+                                        <option value="Dec">December</option>
+                                    </select>
+
+                                    <select class="form-control custom_input" ng-model="dataModel.BirthYear" name="dob-year" id="dob-year" required>
+                                        <option value="">{{ 'Year' | translate }}</option>
+
+                                        <option value="2001">2001</option>
+                                        <option value="2000">2000</option>
+                                        <option value="1999">1999</option>
+                                        <option value="1998">1998</option>
+                                        <option value="1997">1997</option>
+                                        <option value="1996">1996</option>
+                                        <option value="1995">1995</option>
+                                        <option value="1994">1994</option>
+                                        <option value="1993">1993</option>
+                                        <option value="1992">1992</option>
+                                        <option value="1991">1991</option>
+                                        <option value="1990">1990</option>
+                                        <option value="1989">1989</option>
+                                        <option value="1988">1988</option>
+                                        <option value="1987">1987</option>
+                                        <option value="1986">1986</option>
+                                        <option value="1985">1985</option>
+                                        <option value="1984">1984</option>
+                                        <option value="1983">1983</option>
+                                        <option value="1982">1982</option>
+                                        <option value="1981">1981</option>
+                                        <option value="1980">1980</option>
+                                        <option value="1979">1979</option>
+                                        <option value="1978">1978</option>
+                                        <option value="1977">1977</option>
+                                        <option value="1976">1976</option>
+                                        <option value="1975">1975</option>
+                                        <option value="1974">1974</option>
+                                        <option value="1973">1973</option>
+                                        <option value="1972">1972</option>
+                                        <option value="1971">1971</option>
+                                        <option value="1970">1970</option>
+                                        <option value="1969">1969</option>
+                                        <option value="1968">1968</option>
+                                        <option value="1967">1967</option>
+                                        <option value="1966">1966</option>
+                                        <option value="1965">1965</option>
+                                        <option value="1964">1964</option>
+                                        <option value="1963">1963</option>
+                                        <option value="1962">1962</option>
+                                        <option value="1961">1961</option>
+                                        <option value="1960">1960</option>
+                                        <option value="1959">1959</option>
+                                        <option value="1958">1958</option>
+                                        <option value="1957">1957</option>
+                                        <option value="1956">1956</option>
+                                        <option value="1955">1955</option>
+                                        <option value="1954">1954</option>
+                                        <option value="1953">1953</option>
+                                        <option value="1952">1952</option>
+                                        <option value="1951">1951</option>
+                                        <option value="1950">1950</option>
+                                        <option value="1949">1949</option>
+                                        <option value="1948">1948</option>
+                                        <option value="1947">1947</option>
+                                        <option value="1946">1946</option>
+                                        <option value="1945">1945</option>
+                                        <option value="1944">1944</option>
+                                        <option value="1943">1943</option>
+                                        <option value="1942">1942</option>
+                                        <option value="1941">1941</option>
+                                        <option value="1940">1940</option>
+                                        <option value="1939">1939</option>
+                                        <option value="1938">1938</option>
+                                        <option value="1937">1937</option>
+                                        <option value="1936">1936</option>
+                                        <option value="1935">1935</option>
+                                        <option value="1934">1934</option>
+                                        <option value="1933">1933</option>
+                                        <option value="1932">1932</option>
+                                        <option value="1931">1931</option>
+                                        <option value="1930">1930</option>
+                                        <option value="1929">1929</option>
+                                        <option value="1928">1928</option>
+                                        <option value="1927">1927</option>
+                                        <option value="1926">1926</option>
+                                        <option value="1925">1925</option>
+                                        <option value="1924">1924</option>
+                                        <option value="1923">1923</option>
+                                        <option value="1922">1922</option>
+                                        <option value="1921">1921</option>
+                                        <option value="1920">1920</option>
+                                        <option value="1919">1919</option>
+                                        <option value="1918">1918</option>
+                                        <option value="1917">1917</option>
+                                        <option value="1916">1916</option>
+                                        <option value="1915">1915</option>
+                                        <option value="1914">1914</option>
+                                        <option value="1913">1913</option>
+                                        <option value="1912">1912</option>
+                                        <option value="1911">1911</option>
+                                        <option value="1910">1910</option>
+                                        <option value="1909">1909</option>
+                                        <option value="1908">1908</option>
+                                        <option value="1907">1907</option>
+                                        <option value="1906">1906</option>
+                                        <option value="1905">1905</option>
+                                        <option value="1904">1904</option>
+                                        <option value="1903">1903</option>
+                                        <option value="1901">1901</option>
+                                        <option value="1900">1900</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group no-m  no-p">
+                                <label class="control-label custom_control_label" style="margin-bottom: 0 !important;">{{ 'Gender' | translate }}</label>
+                                <div class="radio radio-primary no-mt no-mb" role="group">
+                                    <label>
+                                        <input type="radio" name="optionsRadios1" id="optionsRadiosGender3" value="Male" ng-model="dataModel.Cohort" ng-checked=true> {{ 'Male' | translate }}
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="optionsRadios1" id="optionsRadiosGender4" value="Female" ng-model="dataModel.Cohort"> {{ 'Female' | translate }}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group no-m no-p">
+                                <label class="control-label custom_control_label" for="reg_Password" style="margin-bottom: 0 !important;">{{ 'Password' | translate }}</label>
+                                <div class="input-group custom_login_input_group">
+                                    <input type="password" id="reg_Password" class="form-control custom_input" placeholder="{{ 'Password' | translate }}" ng-model="dataModel.Password" required pattern=".{4,}" title="4 characters minimum">
+                                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group no-m no-p">
+                                <label class="control-label custom_control_label" for="reg_MobileNumber">{{ 'Mobile_Number' | translate }} <span class="color-danger">*</span></label>
+                                <div class="input-group custom_login_input_group">
+                                    <div>
+                                        <input type="tel" id="reg_MobileNumber" class="form-control2 custom_input" style="padding-left: 85px; width:100%;" ng-model="dataModel.MobileNumber" onchange="MobileNumberChange()" onkeypress="return isNumber(event)" required>
+                                        <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                        <input type="hidden" id="dialCode" class="form-control custom_input" ng-model="dataModel.dialCode">
+                                    </div>
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+                                function MobileNumberChange() {
+                                    var MobileNumber = document.getElementById("reg_MobileNumber").value;
+                                    var dialCode = document.getElementById("dialCode").value;
+                                    var scope = angular.element(document.getElementById("dialCode")).scope();
+
+                                    if (scope.dataModel) {
+                                        scope.dataModel.MobileNumber = MobileNumber;
+                                        scope.dataModel.dialCode = dialCode;
+                                        scope.$apply(function () {
+                                        });
+                                    }
+                                }
+                            </script>
+
+                            <!--<div class="form-group no-m no-p mt-1">
+                                <label class="control-label custom_control_label" for="HomeAddress" style="margin-bottom: 0 !important;">Do you have a mortgage company? otherwise we will recommended to you</label>
+                                <div class="input-group custom_login_input_group">
+                                    <div class="radio radio-primary">
+                                        <label class="btn btn-raised btn-primary" ng-class="{'active': dataModel.IsCompany=='Yes', 'not-active': dataModel.IsCompany!='Yes'}">
+                                            <input type="radio" id="optionsRadiosOptionConfirmed1" value="Yes" ng-model="dataModel.IsCompany" ng-true-value="Yes" ng-checked=""> Yes
+                                        </label>
+                                        <label class="btn btn-raised btn-primary ml-1" ng-class="{'active': dataModel.IsCompany=='No', 'not-active': dataModel.IsCompany!='No'}">
+                                            <input type="radio" id="optionsRadiosOptionConfirmed2" ng-model="dataModel.IsCompany" value="No" ng-true-value="No"> No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>-->
+
+                            <!--<div class="form-group no-m no-p mt-1">
+                                <label class="control-label custom_control_label" for="HomeAddress" style="margin-bottom: 0 !important;">Please write your company name</label>
+                                <div class="input-group custom_login_input_group">
+                                    <tag-manager tags="selectedCompanyList" autocomplete="allCompanyList"></tag-manager>
+                                    <!--<input type="text" ng-model="search" list="names"> ng-show="dataModel.IsCompany=='Yes'"
+                                    <datalist id="names" class="form-control" ng-model="name">
+                                        <option value=''>-- select an option --</option>
+                                        <option ng-repeat="option in contacts | filter:search | limitTo:3" value="{{option.name}}"></option>
+                                    </datalist>-->
+                                    <!--<h4>Static arrays</h4>
+                                    <pre>Model: {{selected | json}}</pre>
+                                    <input type="text" ng-model="selected" uib-typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control">-->
+                                    <!--<input type="text" ng-model="selected" uib-typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control">-->
+                                    <!--<select class="form-control custom_input" ng-model="dataModel.UserCompanyId" name="dob-year" id="dob-year" required>
+                                        <option ng-repeat="UserCompany in UserCompanyList" value="{{UserCompany.UserCompanyId}}">{{UserCompany.CompanyName}}</option>
+                                    </select>-->
+                                    <!--<input type="text" ng-model="search" list="names">
+                                    <datalist id="names" class="form-control" ng-model="name">
+                                        <option value=''>-- select an option --</option>
+                                        <option ng-repeat="option in contacts | filter:search | limitTo:3" value="{{option.name}}"></option>
+
+                                    </datalist>-->
+
+                                    <!--<md-content class="md-padding">
+
+                                        <p>The following example demonstrates floating labels being used as a normal form element.</p>
+                                        <div layout-gt-sm="row">
+                                            <md-input-container flex>
+                                                <label>Name</label>
+                                                t
+                                                <input type="text" />
+                                            </md-input-container>
+                                            <md-autocomplete flex required
+                                                             md-input-name="autocompleteField"
+                                                             md-input-minlength="2"
+                                                             md-input-maxlength="18"
+                                                             md-no-cache="noCache"
+                                                             md-selected-item="selectedItem"
+                                                             md-search-text="searchText"
+                                                             md-items="item in querySearch(searchText)"
+                                                             md-item-text="item.display"
+                                                             md-floating-label="Favorite state"
+                                                             placeholder="What is your favorite US state?">
+                                                <md-item-template>
+                                                    <span md-highlight-text="searchText">{{item.display}}</span>
+                                                </md-item-template>
+                                                <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
+                                                    <div ng-message="required">You <b>must</b> have a favorite state.</div>
+                                                    <div ng-message="minlength">Your entry is not long enough.</div>
+                                                    <div ng-message="maxlength">Your entry is too long.</div>
+                                                </div>
+                                            </md-autocomplete>
+                                        </div>
+
+                                    </md-content>-->
+                                <!--</div>
+                            </div>-->
+
+                            <div class="form-group no-m no-p mt-1">
+                                <label class="control-label custom_control_label" for="HomeAddress" style="margin-bottom: 0 !important;">{{ 'Your_Location' | translate }}</label>
+                                <div class="input-group custom_login_input_group">
+                                    <input id="HomeAddress" class="form-control custom_input" style="z-index: auto;" placeholder="{{ 'Enter_a_Location_placeholder' | translate }}" type="text" onclick="homePlaceFunction();" ng-model="dataModel.Address" required>
+                                    <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                </div>
+                            </div>
+                            <input type="hidden" id="HomeAddressLat" ng-model="dataModel.Latitude">
+                            <input type="hidden" id="HomeAddressLng" ng-model="dataModel.Longitude">
+
+                            <div class="form-group no-m no-p">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="agreement_hint" translate="I_agree_with_Shohokari_Terms_and_Conditions"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <input type="hidden" ng-model="dataModel.stanfordworkplaceURL" />
+                            <input type="hidden" ng-model="dataModel.agreement" />
+                            <!--<input type="hidden" ng-model="dataModel.MobileNumber">-->
+                            <!--<input type="hidden" ng-model="dataModel.confirmPassword">-->
+                            <!--<input type="hidden" value="" ng-model="dataModel.Cohort">-->
+
+                            <button type="submit" class="btn btn-raised btn-block btn-primary mt-2 radius-2 no-mb" ng-click="dataModel.FirstName.length>0 && dataModel.Email.length>0 && dataModel.BirthDay.length>0 && dataModel.BirthMonth.length>0 && dataModel.BirthYear.length>0 && dataModel.Password.length>3 && dataModel.MobileNumber.length>0 && dataModel.Address.length>0 && register()">{{ 'btn_Submit' | translate }}</button>
+                            <!--<button type="submit" class="btn btn-raised btn-block btn-primary mt-2 radius-2" ng-if="tab_selected==='SignUpWithBasicInfo'" ng-click="UpdateUserBasic()">{{ 'btn_Continue' | translate }}</button>-->
+                        </fieldset>
+                    </form>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" ng-class="{'active in': tab_selected==='SignUpWithMobile'}" id="ms-register-tab3">
+                    <form>
+                        <fieldset>
+                            <div style="margin:0 10px; font-size: 14px;"><span ng-bind-html="_Notifications('register')"></span></div>
+
+                            
+
+                            <div class="form-group no-m no-p">
+                                <label class="control-label custom_control_label">{{ 'Mobile_Number' | translate }}</label>
+                                <div class="input-group custom_login_input_group">
+                                    <div>
+                                        <input type="tel" id="LoginMobileNumber" class="form-control2 custom_input" style="padding-left: 85px; width:100%;" ng-model="dataOTPModel.MobileNo" onchange="LoginMobileNumberChange()" onkeypress="return isNumber(event)" required>
+                                        <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                        <input type="hidden" id="LoginDialCode" class="form-control custom_input" ng-model="dataOTPModel.CountryCode">
+                                    </div>
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+                                function LoginMobileNumberChange() {
+                                    var LoginMobileNumber = document.getElementById("LoginMobileNumber").value;
+                                    var LoginDialCode = document.getElementById("LoginDialCode").value;
+                                    var scope = angular.element(document.getElementById("LoginDialCode")).scope();
+
+                                    if (scope.dataOTPModel) {
+                                        scope.dataOTPModel.MobileNo = LoginMobileNumber;
+                                        scope.dataOTPModel.CountryCode = LoginDialCode;
+                                        scope.$apply(function () {
+                                        });
+                                    }
+                                }
+                            </script>
+
+                            <!--<div class="form-group no-m no-p">
+                                <label class="control-label custom_control_label">{{ 'Mobile_Number' | translate }}</label>
+                                <div class="input-group dial_code_box">
+                                    <span class="input-group-addon" style="width: 35px;">+880</span>
+                                    <input id="login_phone_number" type="text" placeholder="17********" class="form-control custom_input" minlength="10" maxlength="11" onkeypress="return isNumber(event)" ng-model="dataOTPModel.MobileNo" style="padding-left: 45px;" required>
+                                </div>
+                                <input type="hidden" value="880" ng-model="dataOTPModel.CountryCode" />
+                            </div>-->
+                            <button type="submit" class="btn btn-raised btn-block btn-primary mt-2 radius-2" ng-click="dataOTPModel.MobileNo.length>9 && LoginWithSSLMobile()" data-target="#ms-register-tab4" aria-controls="ms-register-tab4" role="tab" data-toggle="{{dataOTPModel.MobileNo.length>9 ? 'tab' : ''}}">{{ 'btn_Continue' | translate }}</button>
+                            <div class="text-center">
+                                <a href="javascript:void(0)" style="color: #000;" data-target="#ms-login-tab" aria-controls="ms-login-tab" role="tab" data-toggle="tab"> <i class="zmdi zmdi-arrow-left"></i> {{ 'btn_Back' | translate }}</a>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" ng-class="{'active in': tab_selected==='EditMobileNumber'}" id="ms-edit-mobile-tab3">
+                    <form>
+                        <fieldset>
+                            <div style="margin:0 10px; font-size: 14px;"><span ng-bind-html="_Notifications('register')"></span></div>
+                            <!--<div class="form-group no-m no-p">
+                                <label class="control-label custom_control_label" for="LoginEditMobileNumber" style="margin-bottom: 0 !important;">{{ 'Mobile_Number' | translate }}</label>
+                                <div class="input-group custom_login_input_group">
+                                    <div>
+                                        <input type="text" id="LoginEditMobileNumber" class="form-control custom_input" style="padding-left: 93px;" ng-model="dataOTPModel.MobileNo" onchange="LoginEditMobileNumberChange()" onkeypress="return isNumber(event)" required>
+                                        <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                        <input type="hidden" id="LoginEditDialCode" class="form-control custom_input" ng-model="dataOTPModel.CountryCode">
+                                    </div>
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+                                function LoginEditMobileNumberChange() {
+                                    var LoginEditMobileNumber = document.getElementById("LoginEditMobileNumber").value;
+                                    var LoginEditDialCode = document.getElementById("LoginEditDialCode").value;
+                                    var scope = angular.element(document.getElementById("LoginEditDialCode")).scope();
+
+                                    if (scope.dataOTPModel) {
+                                        scope.dataOTPModel.MobileNo = LoginEditMobileNumber;
+                                        scope.dataOTPModel.CountryCode = LoginEditDialCode;
+                                        scope.$apply(function () {
+                                        });
+                                    }
+                                }
+                            </script>-->
+
+                            <div class="form-group no-m no-p">
+                                <label class="control-label custom_control_label">{{ 'Mobile_Number' | translate }}</label>
+                                <input type="text" class="form-control custom_input" onkeypress="return isNumber(event)" ng-model="dataOTPModel.MobileNo" required>
+                                <input type="hidden" ng-model="dataOTPModel.CountryCode">
+                            </div>
+                            <button type="submit" class="btn btn-raised btn-block btn-primary mt-2 radius-2" ng-click="dataOTPModel.MobileNo.length>9 && LoginWithSSLMobile()" data-target="#ms-register-tab4" aria-controls="ms-register-tab4" role="tab" data-toggle="{{dataOTPModel.MobileNo.length>9 ? 'tab' : ''}}">{{ 'btn_Continue' | translate }}</button>
+                            <div class="text-center">
+                                <a href="javascript:void(0)" style="color: #000;" data-target="#ms-register-tab4" aria-controls="ms-register-tab4" role="tab" data-toggle="tab"> <i class="zmdi zmdi-arrow-left"></i> {{ 'btn_Back' | translate }}</a>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <div role="tabpanel" class="tab-pane fade" ng-class="{'active in': tab_selected==='SignUpWithMobileOTP'}" id="ms-register-tab4">
+                    <form>
+                        <fieldset>
+                            <div style="margin:0 10px; font-size: 14px;"><span ng-bind-html="_Notifications('post_userotp') "></span></div>
+                            <div style="margin:0 10px; font-size: 14px;"><span ng-bind-html="_Notifications('login') "></span></div>
+
+                            <h3 class="phone_verification_hint">We sent you a code on your phone number +{{OTPMobileNumber}} <a href="javascript:void(0)" data-target="#ms-edit-mobile-tab3" aria-controls="ms-edit-mobile-tab3" role="tab" data-toggle="tab"><u><i class="zmdi zmdi-edit"></i>{{ 'edit' | translate }}</u></a></h3>
+                            <div class="form-group no-m no-p mt-2">
+                                <!--<label class="control-label custom_control_label">{{ 'Enter_your_code' | translate }}</label>-->
+                                <input type="text" class="form-control custom_input" style="max-width: 160px;margin: 0px auto;" ng-model="dataOTPModel.OTPCode" required>
+                            </div>
+                            <button type="submit" class="btn btn-raised btn-block btn-primary mt-2 radius-2" ng-click="CheckVerificationForEmailRegistration()" style="max-width: 260px;margin: 20px auto 10px auto;">{{ 'btn_Continue' | translate }}</button>
+
+                            <div class="text-center">
+                                <p class="resend_code_text">{{ 'Didnt_receive_the_code' | translate }} <a href="javascript:void(0)" ng-click="ReSendOTPCodeForEmailRegistration()"><u><b>{{ 'RESEND_CODE' | translate }}</b></u></a></p>
+                            </div>
+                            <!--<div class="mt-4 text-center">
+                                <p class="resend_code_text" translate="Phone_verification_not_working"></p>
+                                <p ng-if="WrongNumber"> Mobile number <b>{{WrongNumber}}</b> doesn't match! Please try again!</p>
+                            </div>-->
+                        </fieldset>
+                    </form>
+                </div>
+
+                <div role="tabpanel" class="tab-pane fade" ng-class="{'active in': tab_selected==='SignUpWithUserRole'}" id="user-role-tab">
+                    <form>
+                        <fieldset>
+                            <h3 class="text-center">{{ 'What_is_your_role' | translate }}</h3>
+                            <div class="radio radio-primary no-mb user_role_box clearfix">
+                                <label class="employer_container text-center">
+                                    <div>
+                                        <h4 class="mt-1 mb-1">Customer</h4>
+                                        <!--<p class="employer_hint">{{ 'Employer_desc' | translate }}</p>-->
+                                    </div>
+                                    <input type="radio" id="rdbCommunityId" value="1" ng-model="dataModel.CommunityId" ng-true-value="1" ng-checked=true>
+                                </label>
+                                <label class="worker_container not-active text-center">
+                                    <div>
+                                        <h4 class="mt-1 mb-1">Introducer</h4>
+
+                                        <!--<p class="worker_hint">{{ 'Worker_desc' | translate }}</p>-->
+                                    </div>
+                                    <input type="radio" id="rdbCommunityId" value="2" ng-model="dataModel.CommunityId" ng-true-value="2">
+                                </label>
+                                <!--<label class="employer_container not-active text-center">
+                                    <div>
+                                        <h4 class="mt-1 mb-1">Company</h4>
+                                    </div>
+                                    <input type="radio" name="optionsRadios" id="optionsRadiosPoster3" value="4" ng-model="dataModel.CommunityId" ng-true-value="4">
+                                </label>
+                                <label class="worker_container not-active text-center">
+                                    <div>
+                                        <h4 class="mt-1 mb-1">Adviser</h4>
+                                    </div>
+                                    <input type="radio" name="optionsRadios" id="optionsRadiosTasker4" value="9" ng-model="dataModel.CommunityId" ng-true-value="9">
+                                </label>-->
+                            </div>
+                            <script>
+                                $(function () {
+                                    $('.user_role_box label').on('click', function () {
+                                        $(this).removeClass('not-active').siblings().addClass('not-active');
+                                    });
+                                });
+                            </script>
+
+                            <button type="submit" class="btn btn-raised btn-block btn-primary mt-2 radius-2" ng-click="submitUserCommunity()" style="max-width: 250px;margin: 20px auto 10px auto;">{{ 'btn_Submit' | translate }}</button>
+                            <!--<div class="text-center">
+                                <p class="resend_code_text">Didn't receive the code? <a href="javascript:void(0)" ng-click="ReSendOTPCode()"><u><b>RESEND CODE</b></u></a></p>
+                            </div>-->
+                        </fieldset>
+                    </form>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="ms-recovery-tab">
+                    <form>
+                        <fieldset>
+                            <!--<div class="form-group label-floating">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="zmdi zmdi-account"></i>
+                                    </span>
+                                    <label class="control-label" for="recv_user">Username</label>
+                                    <input type="text" id="recv_user" class="form-control"  ng-model="dataModel.userName">
+                                </div>
+                            </div>-->
+                            <div style="margin:0 10px; font-size: 14px;"><span ng-bind-html="_Notifications('forgotpassword') "></span></div>
+                            <div class="form-group">
+                                <label class="control-label custom_control_label" for="recv_email">Email</label>
+                                <input type="email" id="recv_email" class="form-control custom_input" ng-model="dataModel.email">
+                            </div>
+                            <button class="btn btn-raised btn-block btn-primary" ng-click="forgotPassword()">Send Password</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--///  Login Modal End ///-->
+
+
+<style>
+    .modal {
+        display: block;
+    }
+
+    a {
+        cursor: pointer;
+    }
+
+    .pac-container {
+        z-index: 100000;
+    }
+
+    .modal-dialog {
+        max-width: 420px;
+        margin: 30px auto;
+    }
+
+    .modal .modal-content .modal-body {
+        padding: 24px 45px;
+        padding: 2.4rem 4.5rem;
+    }
+
+    @media(max-width:420px) {
+        .modal .modal-content .modal-body {
+            padding: 24px 20px;
+            padding: 2.4rem 2rem;
+        }
+
+        .modal-dialog {
+            margin: auto;
+        }
+    }
+</style>
+
+<!--<link rel="stylesheet" href="assets/css/angular-material.min.css">-->
+<link rel="stylesheet" href="libraries/build-intl-tel-input/css/intlTelInput.css">
+<link rel="stylesheet" href="libraries/build-intl-tel-input/css/demo.css">
+<script src="libraries/build-intl-tel-input/js/intlTelInput.js"></script>
+<script>
+    var input = document.querySelector("#reg_MobileNumber");
+    var loginInput = document.querySelector("#LoginMobileNumber");
+    //var loginEditInput = document.querySelector("#LoginEditMobileNumber");
+
+    var intl = window.intlTelInput(input, {
+        // allowDropdown: false,
+        // autoHideDialCode: false,
+        // autoPlaceholder: "off",
+        // dropdownContainer: document.body,
+        // excludeCountries: ["us"],
+        // formatOnDisplay: false,
+        //initialCountry: "auto",
+        //geoIpLookup: function(callback) {
+        //  $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        //    var countryCode = (resp && resp.country) ? resp.country : "";
+        //    callback(countryCode);
+        //  });
+        //},
+        // hiddenInput: "full_number",
+        // localizedCountries: { 'de': 'Deutschland' },
+        //nationalMode: true,
+        //onlyCountries: ['us', 'bd', 'ca', "GB"],
+        //placeholderNumberType: "MOBILE",
+        preferredCountries: ['GB'],
+        //separateDialCode: true,
+        utilsScript: "libraries/build-intl-tel-input/js/utils.js",
+    });
+
+    var loginIntl = window.intlTelInput(loginInput, {
+        //onlyCountries: ['us', 'bd', 'ca', "GB"],
+        preferredCountries: ['GB'],
+        utilsScript: "libraries/build-intl-tel-input/js/utils.js"
+    });
+
+    //var loginEditIntl = window.intlTelInput(loginEditInput, {
+    //    utilsScript: "libraries/build-intl-tel-input/js/utils.js",
+    //});
+
+    var countryData = intl.getSelectedCountryData();
+    document.getElementById("dialCode").value = countryData.dialCode;
+    document.getElementById("reg_MobileNumber").style.paddingLeft = "85px";
+    //alert("name=" + countryData.name + " / iso2=" + countryData.iso2 + " / dialCode=" + countryData.dialCode);
+
+    var loginCountryData = loginIntl.getSelectedCountryData();
+    document.getElementById("LoginDialCode").value = loginCountryData.dialCode;
+    document.getElementById("LoginMobileNumber").style.paddingLeft = "85px";
+
+    //var loginEditCountryData = loginEditIntl.getSelectedCountryData();
+    //document.getElementById("LoginEditDialCode").value = loginEditCountryData.dialCode;
+    //document.getElementById("LoginEditMobileNumber").style.paddingLeft = "93px";
+
+    input.addEventListener("countrychange", function () {
+        var countryData = intl.getSelectedCountryData();
+        document.getElementById("dialCode").value = countryData.dialCode;
+    });
+
+    loginInput.addEventListener("countrychange", function () {
+        var loginCountryData = loginIntl.getSelectedCountryData();
+        document.getElementById("LoginDialCode").value = loginCountryData.dialCode;
+    });
+
+    //loginEditInput.addEventListener("countrychange", function () {
+    //    var loginEditCountryData = loginEditIntl.getSelectedCountryData();
+    //    document.getElementById("LoginEditDialCode").value = loginEditCountryData.dialCode;
+    //});
+
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
+
+<script>
+    function homePlaceFunction() {
+        var input = document.getElementById('HomeAddress');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.setComponentRestrictions({ 'country': 'UK' });
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var place = autocomplete.getPlace();
+
+            try {
+                place.formatted_address = place.formatted_address.replace(place.name + ",", "");
+            }
+            catch (ex) { }
+
+            var address = place.name + ", " + place.formatted_address;
+            var latitude = place.geometry.location.lat();
+            var longitude = place.geometry.location.lng();
+            //alert(address);
+            var $scope = angular.element("#HomeAddress").scope();
+
+            $scope.dataModel.Address = address;
+            $scope.dataModel.Latitude = latitude;
+            $scope.dataModel.Longitude = longitude;
+        });
+    }
+    google.maps.event.addDomListener(window, 'load', homePlaceFunction);
+</script>
+
+<script src="assets/js/apps.min.js?version=1.3"></script>
+<script>
+    $(document).ready(function () {
+        $.material.options.autofill = true;
+        $.material.init();
+    });
+</script>
+
+<!--<meta name="google-signin-scope" content="profile email">
+<meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js" async defer></script>-->
+<!--<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>-->
+
+<!--<meta name="google-signin-scope" content="profile email">
+<meta name="google-signin-client_id" content="1009120634756-17np9ah7n4agppl9n7vh7oq59b1dv4nn.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<script>
+    function onSignIn(googleUser) {
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log('Full Name: ' + profile.getName());
+        console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
+
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+
+
+        var scope = angular.element(document.getElementById("rg_email")).scope();
+        scope.dataModel.Email = profile.getEmail();
+        scope.dataModel.FirstName = profile.getGivenName();
+        scope.dataModel.LastName = profile.getFamilyName();
+        scope.dataModel.TwitterUrl = profile.getImageUrl();
+        scope.dataModel.LinkedUrl = profile.getId();
+        scope.dataModel.ReferenceId = profile.getId();
+        scope.dataModel.ReferenceType = "google";
+        scope.$apply(function () {
+            scope.loginWithGoogleLogin();
+        });
+
+    }
+</script>-->
+
